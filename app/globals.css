@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #2d0f5f;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  color: #f6c85f;
+  text-align: center;
+  font-size: 42px;
+}
+
+h2 {
+  text-align: center;
+}
+
+p {
+  text-align: center;
+  line-height: 1.6;
+}
+
+button {
+  border: none;
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:first-of-type {
+  background: white;
+  color: #2d0f5f;
+}
+
+button:last-of-type {
+  background: #f6c85f;
+  color: #2d0f5f;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: bold;
+  color: #f6c85f;
+}
+
+.language {
+  background: rgba(255,255,255,0.15);
+  padding: 8px 14px;
+  border-radius: 12px;
+}
+
+.hero {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.subtitle {
+  color: #cfc3ff;
+  font-size: 14px;
+}
+
+.quote {
+  font-size: 22px;
+  line-height: 1.8;
+  margin: 25px 0;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.priceCard {
+  margin-top: 50px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+}
