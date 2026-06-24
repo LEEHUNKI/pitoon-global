@@ -214,8 +214,28 @@ export default async function AdminDashboardPage() {
 
         <div className="priceCard">
           <h2>최근 잠금해제 기록</h2>
+          <div style={{ marginTop: "12px", marginBottom: "16px", textAlign: "center" }}>
+  <Link
+    href="/admin/unlocks"
+    style={{
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "12px 18px",
+      borderRadius: "12px",
+      background: "#f6c552",
+      color: "#2b124c",
+      fontWeight: "bold",
+      textDecoration: "none",
+    }}
+  >
+    전체 잠금해제 기록 보기
+  </Link>
+</div>
+          
 
           {recentUnlockList.length === 0 ? (
+            
             <p>최근 잠금해제 기록이 없습니다.</p>
           ) : (
             <div style={{ marginTop: "20px" }}>
