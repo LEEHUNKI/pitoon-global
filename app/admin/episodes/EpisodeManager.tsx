@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
-
+import Link from "next/link";
 type Episode = {
   id: number;
   comic_id: number;
@@ -291,6 +291,43 @@ export default function EpisodeManager({ episodes }: { episodes: Episode[] }) {
                     {episode.locked ? episode.price : "무료"}
                   </span>
                 </div>
+                <div
+  style={{
+    display: "flex",
+    gap: "8px",
+    flexWrap: "wrap",
+    marginTop: "8px",
+    marginBottom: "8px",
+  }}
+>
+  <span
+    style={{
+      padding: "6px 10px",
+      borderRadius: "999px",
+      background: episode.locked ? "#fff3cd" : "#e8f5e9",
+      border: "1px solid #ddd",
+      fontSize: "14px",
+      fontWeight: 700,
+    }}
+  >
+    {episode.locked ? "🔒 유료 회차" : "무료 회차"}
+  </span>
+
+  {episode.locked && (
+    <span
+      style={{
+        padding: "6px 10px",
+        borderRadius: "999px",
+        background: "#f8f9fa",
+        border: "1px solid #ddd",
+        fontSize: "14px",
+        fontWeight: 700,
+      }}
+    >
+      가격: {episode.price || 200}원
+    </span>
+  )}
+</div>
 
                 {previewImages.length > 0 && (
                   <div
@@ -323,26 +360,47 @@ export default function EpisodeManager({ episodes }: { episodes: Episode[] }) {
                 )}
 
                 <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    marginTop: "12px",
-                  }}
-                >
-                  <button
-                    className="goldButton"
-                    onClick={() => startEdit(episode)}
-                  >
-                    수정
-                  </button>
+  style={{
+    display: "flex",
+    gap: "10px",
+    marginTop: "12px",
+    flexWrap: "wrap",
+  }}
+>
+  <Link
+  href={`/comics/${episode.comic_id}/episodes/${episode.episode_no}`}
+  style={{
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: "78px",
+    height: "58px",
+    padding: "0 20px",
+    borderRadius: "12px",
+    background: "#ffffff",
+    color: "#2b0b5c",
+    fontWeight: 700,
+    textDecoration: "none",
+    border: "none",
+  }}
+>
+  보기
+</Link>
 
-                  <button
-                    className="goldButton"
-                    onClick={() => handleDelete(episode)}
-                  >
-                    삭제
-                  </button>
-                </div>
+  <button
+    className="goldButton"
+    onClick={() => startEdit(episode)}
+  >
+    수정
+  </button>
+
+  <button
+    className="goldButton"
+    onClick={() => handleDelete(episode)}
+  >
+    삭제
+  </button>
+</div>
               </div>
             )}
           </div>
