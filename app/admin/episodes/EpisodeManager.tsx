@@ -13,6 +13,7 @@ type Episode = {
   path: string;
   image_url?: string | null;
   image_urls?: string[] | null;
+  published?: boolean | null;
 };
 
 export default function EpisodeManager({ episodes }: { episodes: Episode[] }) {
@@ -23,6 +24,7 @@ export default function EpisodeManager({ episodes }: { episodes: Episode[] }) {
   const [price, setPrice] = useState("");
   const [saving, setSaving] = useState(false);
   const [filter, setFilter] = useState<"all" | "free" | "paid">("all");
+  const [published, setPublished] = useState(true);
 
   const [editImageUrl, setEditImageUrl] = useState("");
   const [editImageUrls, setEditImageUrls] = useState<string[]>([]);
@@ -34,6 +36,7 @@ export default function EpisodeManager({ episodes }: { episodes: Episode[] }) {
     setTitle(episode.title);
     setLocked(episode.locked);
     setPrice(episode.price || "무료");
+    setPublished(episode.published !== false);
 
     const existingImages =
       episode.image_urls && episode.image_urls.length > 0
@@ -52,6 +55,7 @@ export default function EpisodeManager({ episodes }: { episodes: Episode[] }) {
     setTitle("");
     setLocked(false);
     setPrice("");
+    setPublished(true);
     setEditImageUrl("");
     setEditImageUrls([]);
     setUploadingEditImages(false);
@@ -124,6 +128,7 @@ export default function EpisodeManager({ episodes }: { episodes: Episode[] }) {
         path: newPath,
         image_url: editImageUrl,
         image_urls: editImageUrls,
+        published,
       })
       .eq("id", episode.id);
 
@@ -284,6 +289,15 @@ export default function EpisodeManager({ episodes }: { episodes: Episode[] }) {
                     </div>
                   </div>
                 )}
+                <label>공개 여부</label>
+<select
+  className="adminInput"
+  value={published ? "true" : "false"}
+  onChange={(e) => setPublished(e.target.value === "true")}
+>
+  <option value="true">공개</option>
+  <option value="false">비공개</option>
+</select>
 
                 <label>유료 회차 여부</label>
                 <select
@@ -357,6 +371,18 @@ export default function EpisodeManager({ episodes }: { episodes: Episode[] }) {
   >
     {episode.locked ? "🔒 유료 회차" : "무료 회차"}
   </span>
+  <span
+  style={{
+    padding: "6px 10px",
+    borderRadius: "999px",
+    background: episode.published === false ? "#ffe3e3" : "#e3f2fd",
+    border: "1px solid #ddd",
+    fontSize: "14px",
+    fontWeight: 700,
+  }}
+>
+  {episode.published === false ? "비공개" : "공개"}
+</span>
 
   {episode.locked && (
     <span

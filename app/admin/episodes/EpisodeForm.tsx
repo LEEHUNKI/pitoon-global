@@ -15,6 +15,7 @@ export default function EpisodeForm({ comics }: { comics: Comic[] }) {
   const [locked, setLocked] = useState(false);
   const [price, setPrice] = useState("무료");
   const [saving, setSaving] = useState(false);
+  const [published, setPublished] = useState(true);
 
   const [imageUrl, setImageUrl] = useState("");
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -83,6 +84,7 @@ export default function EpisodeForm({ comics }: { comics: Comic[] }) {
     const { error } = await supabase.from("episodes").insert({
       comic_id: Number(comicId),
       episode_no: Number(episodeNo),
+      published,
       title,
       locked,
       price: locked ? price : "무료",
@@ -173,6 +175,15 @@ export default function EpisodeForm({ comics }: { comics: Comic[] }) {
           </div>
         </div>
       )}
+      <label>공개 여부</label>
+<select
+  className="adminInput"
+  value={published ? "true" : "false"}
+  onChange={(e) => setPublished(e.target.value === "true")}
+>
+  <option value="true">공개</option>
+  <option value="false">비공개</option>
+</select>
 
       <label>유료 회차 여부</label>
       <select
