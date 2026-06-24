@@ -292,6 +292,9 @@ export default async function AdminDashboardPage() {
           <Link href="/admin/episodes" style={menuButtonStyle}>
             회차 관리
           </Link>
+          <Link href="/admin/unlocks" style={menuButtonStyle}>
+  잠금해제 기록 관리
+</Link>
 
           <Link href="/comics" style={menuButtonStyle}>
             작품 목록 보기
