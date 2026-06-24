@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import AdminLogoutButton from "../AdminLogoutButton";
+import UnlockSearchList from "./UnlockSearchList";
 
 type Comic = {
   id: number;
@@ -27,23 +28,6 @@ export default async function AdminUnlocksPage() {
     .from("episode_unlocks")
     .select("*")
     .order("created_at", { ascending: false });
-
-  const getComicTitle = (comicId: number) => {
-    const comic = comics?.find((item) => item.id === comicId);
-    return comic?.title || `${comicId}번 작품`;
-  };
-
-  const formatDate = (dateText?: string) => {
-    if (!dateText) return "날짜 정보 없음";
-
-    const date = new Date(dateText);
-
-    if (Number.isNaN(date.getTime())) {
-      return dateText;
-    }
-
-    return date.toLocaleString("ko-KR");
-  };
 
   if (comicsError || unlocksError) {
     return (
@@ -97,43 +81,10 @@ export default async function AdminUnlocksPage() {
         {!unlocks || unlocks.length === 0 ? (
           <p>아직 잠금해제 기록이 없습니다.</p>
         ) : (
-          <div style={{ display: "grid", gap: "14px" }}>
-            {unlocks.map((unlock: UnlockLog) => (
-              <Link
-                key={unlock.id}
-                href={`/comics/${unlock.comic_id}/episodes/${unlock.episode_no}`}
-                style={{
-                  display: "block",
-                  padding: "18px",
-                  borderRadius: "18px",
-                  background: "rgba(255, 255, 255, 0.08)",
-                  border: "1px solid rgba(255, 255, 255, 0.16)",
-                  color: "white",
-                  textDecoration: "none",
-                }}
-              >
-                <h3 style={{ marginBottom: "8px" }}>
-                  {getComicTitle(unlock.comic_id)} / {unlock.episode_no}화
-                </h3>
-
-                <p style={{ margin: "4px 0" }}>
-                  잠금해제 시간: {formatDate(unlock.created_at)}
-                </p>
-
-                <p style={{ margin: "4px 0" }}>
-                  사용자:{" "}
-                  {unlock.username ||
-                    unlock.pi_user_uid ||
-                    unlock.user_id ||
-                    "사용자 정보 없음"}
-                </p>
-
-                <p style={{ margin: "8px 0 0", color: "#ffd166" }}>
-                  클릭하면 해당 회차로 이동합니다.
-                </p>
-              </Link>
-            ))}
-          </div>
+          <UnlockSearchList
+            unlocks={(unlocks || []) as UnlockLog[]}
+            comics={(comics || []) as Comic[]}
+          />
         )}
       </section>
     </main>
