@@ -22,6 +22,7 @@ export default function EpisodeManager({ episodes }: { episodes: Episode[] }) {
   const [locked, setLocked] = useState(false);
   const [price, setPrice] = useState("");
   const [saving, setSaving] = useState(false);
+  const [filter, setFilter] = useState<"all" | "free" | "paid">("all");
 
   const [editImageUrl, setEditImageUrl] = useState("");
   const [editImageUrls, setEditImageUrls] = useState<string[]>([]);
@@ -166,10 +167,54 @@ export default function EpisodeManager({ episodes }: { episodes: Episode[] }) {
   if (!episodes.length) {
     return <p>등록된 회차가 없습니다.</p>;
   }
+  const filteredEpisodes = episodes.filter((episode) => {
+  if (filter === "free") return !episode.locked;
+  if (filter === "paid") return episode.locked;
+  return true;
+});
 
   return (
-    <div>
-      {episodes.map((episode) => {
+  <div>
+    <div
+      style={{
+        display: "flex",
+        gap: "10px",
+        flexWrap: "wrap",
+        marginBottom: "20px",
+      }}
+    >
+      <button
+        className="goldButton"
+        onClick={() => setFilter("all")}
+        style={{
+          opacity: filter === "all" ? 1 : 0.6,
+        }}
+      >
+        전체 회차
+      </button>
+
+      <button
+        className="goldButton"
+        onClick={() => setFilter("free")}
+        style={{
+          opacity: filter === "free" ? 1 : 0.6,
+        }}
+      >
+        무료 회차
+      </button>
+
+      <button
+        className="goldButton"
+        onClick={() => setFilter("paid")}
+        style={{
+          opacity: filter === "paid" ? 1 : 0.6,
+        }}
+      >
+        유료 회차
+      </button>
+    </div>
+
+    {filteredEpisodes.map((episode) => {
         const previewImages =
           episode.image_urls && episode.image_urls.length > 0
             ? episode.image_urls
